@@ -9,13 +9,28 @@ CREATE TABLE IF NOT EXISTS public.tb_pessoa
     PRIMARY KEY (id)
 );
 
+CREATE TABLE IF NOT EXISTS public.endereco
+(
+    id uuid,
+    id_pessoa uuid,
+    uf_estado character varying(2),
+    cidade character varying(500),
+    bairro character varying(500),
+    logradouro character varying(500),
+    numero character varying(20),
+    complemento character varying(500),
+    PRIMARY KEY (id)
+);
+
 CREATE TABLE IF NOT EXISTS public.tb_dados_bancarios
 (
+    id uuid,
     id_pessoa uuid,
     codigo_banco character varying(20),
     agencia character varying(20),
     conta character varying(20),
-    digito_conta character varying
+    digito_conta character varying,
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS public.tb_loja
@@ -26,19 +41,10 @@ CREATE TABLE IF NOT EXISTS public.tb_loja
     razao_social character varying(500),
     cnpj character varying(50),
     data_abertura date,
-    PRIMARY KEY (id_pessoa)
+    PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS public.endereco
-(
-    id_pessoa uuid,
-    uf_estado character varying(2),
-    cidade character varying(500),
-    bairro character varying(500),
-    logradouro character varying(500),
-    numero character varying(20),
-    complemento character varying(500)
-);
+
 
 ALTER TABLE IF EXISTS public.tb_dados_bancarios
     ADD CONSTRAINT id_pessoa FOREIGN KEY (id_pessoa)
@@ -54,6 +60,8 @@ ALTER TABLE IF EXISTS public.tb_loja
     ON UPDATE NO ACTION
     ON DELETE NO ACTION
     NOT VALID;
+
+
 
 
 ALTER TABLE IF EXISTS public.endereco
