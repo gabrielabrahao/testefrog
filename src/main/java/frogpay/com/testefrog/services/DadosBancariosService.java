@@ -27,6 +27,19 @@ public class DadosBancariosService {
     public DadosBancarios saveDadosBancarios(DadosBancarios dadosBancarios, UUID idPessoa) {
         Pessoa pessoa = pessoaRepository.findById(idPessoa).orElseThrow(()
                 -> new ValidacaoException("Pessoa não encontrada"));
+        DadosBancarios dadosBancariosOld = dadosBancariosRepository.findByPessoaId(idPessoa);
+        if (dadosBancariosOld != null) {
+            updateDadosBancarios(dadosBancarios, idPessoa);
+        }
+        dadosBancarios.setPessoa(pessoa);
+        return dadosBancariosRepository.save(dadosBancarios);
+    }
+
+    public DadosBancarios updateDadosBancarios(DadosBancarios dadosBancarios, UUID idPessoa) {
+        Pessoa pessoa = pessoaRepository.findById(idPessoa).orElseThrow(()
+                -> new ValidacaoException("Pessoa não encontrada"));
+        DadosBancarios dadosBancariosOld = dadosBancariosRepository.findByPessoaId(idPessoa);
+        dadosBancarios.setId(dadosBancariosOld.getId());
         dadosBancarios.setPessoa(pessoa);
         return dadosBancariosRepository.save(dadosBancarios);
     }

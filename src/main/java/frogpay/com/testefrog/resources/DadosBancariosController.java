@@ -25,6 +25,11 @@ public class DadosBancariosController {
         return dadosBancariosService.saveDadosBancarios(dadosBancarios,idPessoa);
     }
 
+    @PutMapping("/{idPessoa}")
+    public DadosBancarios update(@RequestBody DadosBancarios dadosBancarios, @PathVariable UUID idPessoa) {
+        return dadosBancariosService.updateDadosBancarios(dadosBancarios,idPessoa);
+    }
+
 
     @GetMapping("/{idPessoa}")
     public ResponseEntity<DadosBancarios> getDadosBancariosByPessoaId(@PathVariable UUID idPessoa) {
