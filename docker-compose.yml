@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15.3-alpine
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_USER: postgres
+    ports:
+      - 5432:5432
+    networks:
+      - app-network
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+  app:
+    networks:
+      - app-network
+    depends_on:
+      - postgres
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    working_dir: /usr/src/testefrog
+    container_name: testefrog
+    restart: on-failure
+    env_file: ./.env
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/frogpay
+    ports:
+      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
+    volumes:
+      - .m2:/root/.m2
+    stdin_open: true
+    tty: true
+networks:
+  app-network:
+    driver: bridge
+volumes:
+  mysqlvolume:

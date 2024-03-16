@@ -1,3 +1,5 @@
+CREATE DATABASE frogpay;
+
 CREATE TABLE IF NOT EXISTS public.tb_pessoa
 (
     id uuid,
